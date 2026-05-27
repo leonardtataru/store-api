@@ -18,7 +18,7 @@ public class Initializer {
             User admin = new User();
             admin.setUsername("admin");
             admin.setPassword(Base64Util.encode("admin"));
-            admin.setRole(1);
+            admin.setRole(1L);
 
             userRepository.save(admin);
         };
