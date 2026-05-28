@@ -2,6 +2,8 @@ package com.store.api.service;
 
 import com.store.api.dto.ChangePriceDTO;
 import com.store.api.entity.Product;
+import com.store.api.exceptions.NoProductException;
+import com.store.api.exceptions.ProductExistException;
 import com.store.api.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class ProductService {
     public void saveProduct(Product product) {
         boolean exists = productRepository.existsByName(product.getName());
         if (exists) {
-            throw new RuntimeException("Product already exists");
+            throw new ProductExistException("Product already exists");
         }
         productRepository.save(product);
     }
@@ -30,7 +32,7 @@ public class ProductService {
     public Product getProductByName(String name) {
         Product productByName = productRepository.findByName(name);
         if (productByName == null) {
-            throw new RuntimeException("No product found with name " + name);
+            throw new NoProductException("No product found with name " + name);
         }
         return productByName;
     }
@@ -38,7 +40,7 @@ public class ProductService {
     public Optional<Product> getProductById(Long id) {
         Optional<Product> productById = productRepository.findById(id);
         if (!productById.isPresent()) {
-            throw new RuntimeException("No product found with id " + id);
+            throw new NoProductException("No product found with id " + id);
         }
         return productById;
     }

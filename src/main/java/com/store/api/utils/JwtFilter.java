@@ -1,6 +1,7 @@
 package com.store.api.utils;
 
 import com.store.api.entity.Role;
+import com.store.api.exceptions.ExpiredToken;
 import com.store.api.repository.RoleRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -65,7 +66,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
                 filterChain.doFilter(request, response);
             }
-        } catch (Exception e) {
+        } catch (ExpiredToken e) {
+            response.setStatus(e.getStatus().value());
             response.setContentType("application/json");
             response.getWriter().write(e.getMessage());
         }

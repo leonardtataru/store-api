@@ -47,7 +47,7 @@ public class AuthorizationService {
 
         Optional<User> userExist = userRepository.findByUsername(user.getUsername());
 
-        if (user.getUsername().equals(userExist.get().getUsername()) || user.getPassword().equals(userExist.get().getPassword())) {
+        if (user.getUsername().equals(userExist.get().getUsername()) && user.getPassword().equals(userExist.get().getPassword())) {
             return jwtUtil.generateToken(userExist);
         } else {
             throw new WrongUsernameOrPassword("Username or password is incorrect.");
