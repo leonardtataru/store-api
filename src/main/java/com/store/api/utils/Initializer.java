@@ -1,4 +1,4 @@
-package com.store.api;
+package com.store.api.utils;
 
 import com.store.api.entity.User;
 import com.store.api.repository.UserRepository;
