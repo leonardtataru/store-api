@@ -66,7 +66,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             }
         } catch (Exception e) {
-            SecurityContextHolder.clearContext();
+            response.setContentType("application/json");
+            response.getWriter().write(e.getMessage());
         }
     }
 }

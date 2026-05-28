@@ -1,8 +1,6 @@
 package com.store.api.utils;
 
 import com.store.api.entity.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -69,7 +67,7 @@ public class JwtUtil {
 
             return true;
         } catch (JwtException e) {
-            return false;
+            throw new RuntimeException("Expired or invalid JWT token");
         }
     }
 }
