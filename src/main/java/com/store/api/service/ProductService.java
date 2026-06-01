@@ -17,11 +17,11 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final JournalRepository orderRepository;
+    private final JournalRepository journalRepository;
 
     ProductService(ProductRepository productRepository, JournalRepository journalRepository) {
         this.productRepository = productRepository;
-        this.orderRepository = journalRepository;
+        this.journalRepository = journalRepository;
     }
 
     @Transactional
@@ -93,7 +93,7 @@ public class ProductService {
         createJournal(journal);
     }
 
-    private void createJournal(Journal order) {
-        orderRepository.save(order);
+    public void createJournal(Journal order) {
+        journalRepository.save(order);
     }
 }
