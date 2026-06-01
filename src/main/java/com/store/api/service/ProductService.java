@@ -1,9 +1,11 @@
 package com.store.api.service;
 
 import com.store.api.dto.ChangePriceDTO;
+import com.store.api.entity.Journal;
 import com.store.api.entity.Product;
 import com.store.api.exceptions.NoProductException;
 import com.store.api.exceptions.ProductExistException;
+import com.store.api.repository.JournalRepository;
 import com.store.api.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,9 +17,11 @@ import java.util.Optional;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final JournalRepository orderRepository;
 
-    ProductService(ProductRepository productRepository) {
+    ProductService(ProductRepository productRepository, JournalRepository journalRepository) {
         this.productRepository = productRepository;
+        this.orderRepository = journalRepository;
     }
 
     @Transactional
@@ -27,6 +31,10 @@ public class ProductService {
             throw new ProductExistException("Product already exists");
         }
         productRepository.save(product);
+        Journal journal = new Journal();
+        journal.setProductId(product.getId());
+        journal.setOrderId(1L);
+        createJournal(journal);
     }
 
     public Product getProductByName(String name) {
@@ -56,6 +64,10 @@ public class ProductService {
             throw new NoProductException("No product found with id " + id);
         }
         productRepository.deleteById(id);
+        Journal journal = new Journal();
+        journal.setProductId(id);
+        journal.setOrderId(3L);
+        createJournal(journal);
     }
 
     @Transactional
@@ -65,5 +77,13 @@ public class ProductService {
             throw new NoProductException("No product found with id " + changePriceDTO.getProductId());
         }
         productRepository.changePriceById(changePriceDTO.getProductId(), changePriceDTO.getPrice());
+        Journal journal = new Journal();
+        journal.setProductId(changePriceDTO.getProductId());
+        journal.setOrderId(2L);
+        createJournal(journal);
+    }
+
+    private void createJournal(Journal order) {
+        orderRepository.save(order);
     }
 }

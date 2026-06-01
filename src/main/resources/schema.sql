@@ -9,8 +9,8 @@ CREATE TABLE users
     id       BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255),
     password VARCHAR(255),
-    role     BIGINT,
-    CONSTRAINT fk_user_role FOREIGN KEY (role) REFERENCES role (id)
+    role_id     BIGINT,
+    CONSTRAINT fk_user_role FOREIGN KEY (role_id) REFERENCES role (id)
 );
 
 INSERT INTO role (description)
@@ -25,3 +25,25 @@ CREATE TABLE product
     description VARCHAR(255),
     price DOUBLE
 );
+
+CREATE TABLE step_order
+(
+    id     BIGINT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(255)
+);
+
+CREATE TABLE journal
+(
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    product_id BIGINT,
+    order_id   BIGINT,
+    CONSTRAINT fk_product_journal FOREIGN KEY (product_id) REFERENCES product (id),
+    CONSTRAINT fk_order_journal FOREIGN KEY (order_id) REFERENCES step_order (id)
+);
+
+INSERT INTO step_order (action)
+values ('CREATE');
+INSERT INTO step_order (action)
+values ('CHANGE');
+INSERT INTO step_order (action)
+values ('DELETE');

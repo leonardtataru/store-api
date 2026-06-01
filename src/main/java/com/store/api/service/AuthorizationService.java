@@ -29,7 +29,7 @@ public class AuthorizationService {
         User user = new User();
         user.setUsername(register.getUsername());
         user.setPassword(Base64Util.encode(register.getPassword()));
-        user.setRole(2L);
+        user.setRole_id(2L);
 
         boolean userExist = userRepository.existsByUsername(user.getUsername());
         if (userExist) {

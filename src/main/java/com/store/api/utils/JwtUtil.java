@@ -27,7 +27,7 @@ public class JwtUtil {
 
         return Jwts.builder()
                 .id(String.valueOf(user.get().getId()))
-                .claim("role", user.get().getRole())
+                .claim("role", user.get().getRole_id())
                 .subject(user.get().getUsername())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
