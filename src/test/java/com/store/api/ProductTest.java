@@ -77,6 +77,7 @@ public class ProductTest {
         verify(journalRepository, times(1)).save(any(Journal.class));
     }
 
+    @Test
     public void createProductTestFail() {
         String productName = "test1";
 

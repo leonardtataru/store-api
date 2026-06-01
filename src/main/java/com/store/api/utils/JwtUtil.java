@@ -1,6 +1,7 @@
 package com.store.api.utils;
 
 import com.store.api.entity.User;
+import com.store.api.exceptions.ExpiredToken;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,7 +13,6 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 public class JwtUtil {
@@ -23,12 +23,12 @@ public class JwtUtil {
         this.key = key;
     }
 
-    public String generateToken(Optional<User> user) {
+    public String generateToken(User user) {
 
         return Jwts.builder()
-                .id(String.valueOf(user.get().getId()))
-                .claim("role", user.get().getRole_id())
-                .subject(user.get().getUsername())
+                .id(String.valueOf(user.getId()))
+                .claim("role", user.getRole_id())
+                .subject(user.getUsername())
                 .issuedAt(Date.from(Instant.now()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 10))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -67,7 +67,7 @@ public class JwtUtil {
 
             return true;
         } catch (JwtException e) {
-            throw new RuntimeException("Expired or invalid JWT token");
+            throw new ExpiredToken("Expired or invalid JWT token");
         }
     }
 }

@@ -3,7 +3,6 @@ package com.store.api.controller;
 import com.store.api.dto.Login;
 import com.store.api.dto.Register;
 import com.store.api.service.AuthorizationService;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +23,7 @@ public class AuthorizationController {
         return authorizationService.register(request);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestBody Login login) {
         return authorizationService.login(login);
     }
