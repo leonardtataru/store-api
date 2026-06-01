@@ -51,11 +51,19 @@ public class ProductService {
 
     @Transactional
     public void deleteProductById(Long id) {
+        boolean exists = productRepository.existsById(id);
+        if (!exists) {
+            throw new NoProductException("No product found with id " + id);
+        }
         productRepository.deleteById(id);
     }
 
     @Transactional
     public void changePriceById(ChangePriceDTO changePriceDTO) {
+        boolean exists = productRepository.existsById(changePriceDTO.getProductId());
+        if (!exists) {
+            throw new NoProductException("No product found with id " + changePriceDTO.getProductId());
+        }
         productRepository.changePriceById(changePriceDTO.getProductId(), changePriceDTO.getPrice());
     }
 }
