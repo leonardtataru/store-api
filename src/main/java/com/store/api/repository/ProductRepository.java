@@ -16,5 +16,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("update Product p set p.price = ?2 where p.id = ?1")
     void changePriceById(long id, double price);
 
+    @Modifying
+    @Query("update Product p set p.deleted = true")
+    void softDelete(Long id);
+
     boolean existsByName(String name);
 }

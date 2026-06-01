@@ -58,16 +58,26 @@ public class ProductService {
     }
 
     @Transactional
+    public void softDeleteProduct(Long id) {
+        Optional<Product> productById = productRepository.findById(id);
+        if (productById.isEmpty()) {
+            throw new NoProductException("No product found with id " + id);
+        }
+        productRepository.softDelete(productById.get().getId());
+        Journal journal = new Journal();
+        journal.setProductId(id);
+        journal.setOrderId(3L);
+        createJournal(journal);
+    }
+
+    @Transactional
     public void deleteProductById(Long id) {
         boolean exists = productRepository.existsById(id);
         if (!exists) {
             throw new NoProductException("No product found with id " + id);
         }
+        productRepository.softDelete(id);
         productRepository.deleteById(id);
-        Journal journal = new Journal();
-        journal.setProductId(id);
-        journal.setOrderId(3L);
-        createJournal(journal);
     }
 
     @Transactional

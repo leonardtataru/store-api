@@ -47,8 +47,13 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProductByName(@PathVariable long id) {
+    public void deleteProductById(@PathVariable long id) {
         productService.deleteProductById(id);
+    }
+
+    @DeleteMapping("/soft/{id}")
+    public void softDeleteByProductId(@PathVariable long id) {
+        productService.softDeleteProduct(id);
     }
 
     @PutMapping("/changePrice")
